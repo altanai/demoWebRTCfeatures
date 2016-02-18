@@ -1,0 +1,137 @@
+
+<html>
+<head>
+
+
+  <title>getUserMedia: select resolution</title>
+
+
+  <style>
+    body, html {
+      height: 100%;
+    }
+
+    button {
+      margin: 0 10px 20px 0;
+      width: 90px;
+    }
+
+    div#buttons {
+      margin: 0 0 1em 0;
+    }
+
+    div#container {
+      max-width: 100%;
+    }
+
+    p#dimensions {
+      height: 1em;
+      margin: 0 0 1.5em 0;
+    }
+
+    video {
+      background: none;
+      height: auto;
+      width: auto;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div id="container">
+
+
+
+    <div id="buttons">
+      <button id="qvga">QVGA</button>
+      <button id="vga">VGA</button>
+      <button id="hd">HD</button>
+      <button id="full-hd">Full HD</button>
+    </div>
+
+    <p id="dimensions"></p>
+
+    <video autoplay></video>
+
+  </div>
+
+  <script src="../js/adapter.js"></script>
+  <script src="../js/common.js"></script>
+  <script>
+
+  var dimensions = document.querySelector('#dimensions');
+  var video = document.querySelector('video');
+  var stream;
+
+  var vgaButton = document.querySelector('#vga');
+  var qvgaButton = document.querySelector('#qvga');
+  var hdButton = document.querySelector('#hd');
+  var fullHdButton = document.querySelector('#full-hd');
+
+  vgaButton.onclick = function() {
+    getMedia(vgaConstraints);
+  };
+
+  qvgaButton.onclick = function() {
+    getMedia(qvgaConstraints);
+  };
+
+  hdButton.onclick = function() {
+    getMedia(hdConstraints);
+  };
+
+  fullHdButton.onclick = function() {
+    getMedia(fullHdConstraints);
+  };
+
+  var qvgaConstraints = {
+    video: {width: {exact: 320}, height: {exact: 240}}
+  };
+
+  var vgaConstraints = {
+    video: {width: {exact: 640}, height: {exact: 480}}
+  };
+
+  var hdConstraints = {
+    video: {width: 1280, height: 720}
+  };
+
+  var fullHdConstraints = {
+    video: {width: {exact: 1920}, height: {exact: 1080}}
+  };
+
+  function successCallback(mediaStream) {
+    window.stream = mediaStream; // stream available to console
+    video.srcObject = mediaStream;
+  }
+
+  function errorCallback(error) {
+    console.log('navigator.getUserMedia error: ', error);
+  }
+
+  function displayVideoDimensions() {
+    if (!video.videoWidth) {
+      setTimeout(displayVideoDimensions, 500);
+    }
+    dimensions.innerHTML = 'Actual video dimensions: ' + video.videoWidth + 'x' + video.videoHeight + 'px.';
+  }
+
+  video.onloadedmetadata = displayVideoDimensions;
+
+  function getMedia(constraints) {
+    if (stream) {
+      stream.getTracks().forEach(function(track) {
+        track.stop();
+      });
+    }
+    setTimeout(function() {
+      navigator.getUserMedia(constraints, successCallback, errorCallback);
+    }, (stream ? 200 : 0));
+  }
+
+  </script>
+
+</body>
+</html>
