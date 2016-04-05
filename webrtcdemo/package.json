@@ -1,0 +1,30 @@
+{
+  "name": "webrtcdemo",
+  "version": "1.0.0",
+  "description": "Really simple webrtc demo with elaborate script and comments ",
+  "main": "server.js",
+  "dependencies": {
+    "websocket": "^1.0.22"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:altanai/demoWebRTCfeatures.git"
+  },
+  "keywords": [
+    "webrtc",
+    "altanai",
+    "simple",
+    "conf"
+  ],
+  "author": "altanai",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/altanai/demoWebRTCfeatures/issues"
+  },
+  "homepage": "https://github.com/altanai/demoWebRTCfeatures"
+}
